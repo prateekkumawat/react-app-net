@@ -1,0 +1,10 @@
+name: react-dotnet-azure-sample
+services:
+  api:
+    project: backend/Api
+    language: dotnet
+    host: appservice
+  frontend:
+    project: frontend
+    language: js
+    host: appservice
