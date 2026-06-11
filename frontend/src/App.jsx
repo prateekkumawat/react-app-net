@@ -11,7 +11,7 @@ export default function App() {
     fetch(`${baseUrl}/api/health`)
       .then((res) => res.json())
       .then((data) => setHealth(data.message || 'Backend is running.'))
-      .catch(() => setHealth('Backend is not running yet. Start the .NET API on port 5000.'));
+      .catch(() => setHealth('Backend is not running yet. Start the .NET API on port 8080.'));
 
     fetch(`${baseUrl}/api/db-check`)
       .then(async (res) => {

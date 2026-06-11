@@ -2,6 +2,8 @@ using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://0.0.0.0:8080");
+
 var connectionString =
     Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING")
     ?? builder.Configuration["SqlServerConnectionString"];
