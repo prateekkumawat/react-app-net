@@ -58,5 +58,5 @@ jobs:
           app-name: 'hsit-app-backend'
           slot-name: 'Production'
           package: ./publish
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_BACKEND_PUBLISH_PROFILE }}
           
