@@ -9,8 +9,6 @@ var connectionString =
     ?? builder.Configuration["SqlServerConnectionString"];
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -24,12 +22,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseRouting();
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "HSIT API v1");
-    options.RoutePrefix = "swagger";
-});
 app.UseCors("AllowFrontend");
 app.MapControllers();
 
