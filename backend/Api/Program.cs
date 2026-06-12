@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,11 +7,14 @@ builder.WebHost.UseUrls("http://0.0.0.0:8080");
 
 var connectionString =
     Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING")
-    ?? builder.Configuration["SqlServerConnectionString"];
+    ?? builder.Configuration["SqlServerConnectionString"]
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString ?? "Data Source=localhost;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True"));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -39,6 +43,13 @@ app.MapGet("/api/health", () =>
         message = "Backend is up and running.",
         databaseConnectionStringConfigured = !string.IsNullOrWhiteSpace(connectionString)
     }));
+
+app.MapGet("/dbtest", async (AppDbContext db) =>
+{
+    return await db.Database.CanConnectAsync()
+        ? Results.Ok("Database Connected")
+        : Results.Problem("Database Connection Failed");
+});
 
 app.MapGet("/api/db-check", async () =>
 {

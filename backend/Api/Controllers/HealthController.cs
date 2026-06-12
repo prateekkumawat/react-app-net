@@ -19,14 +19,16 @@ public class HealthController : ControllerBase
     {
         message = "Backend is up and running.",
         databaseConfigured = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING")
-            ?? _configuration["SqlServerConnectionString"])
+            ?? _configuration["SqlServerConnectionString"]
+            ?? _configuration.GetConnectionString("DefaultConnection"))
     });
 
     [HttpGet("db")]
     public async Task<IActionResult> DbCheck()
     {
         var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING")
-            ?? _configuration["SqlServerConnectionString"];
+            ?? _configuration["SqlServerConnectionString"]
+            ?? _configuration.GetConnectionString("DefaultConnection");
 
         if (string.IsNullOrWhiteSpace(connectionString))
         {
