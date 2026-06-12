@@ -42,7 +42,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
 
     steps:
@@ -52,13 +51,6 @@ jobs:
           name: .net-app
           path: ./publish
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_55DE96179D80449DA6B51C854CF18085 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E0EFF1C09E144E6F8A1A0FC48D3643E9 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5CD22C7A942C4BE98B51A42AFDEAD0BF }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -66,4 +58,5 @@ jobs:
           app-name: 'hsit-app-backend'
           slot-name: 'Production'
           package: ./publish
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BACKEND }}
           
