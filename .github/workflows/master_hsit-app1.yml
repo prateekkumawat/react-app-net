@@ -65,5 +65,5 @@ jobs:
         with:
           app-name: 'hsit-app1'
           slot-name: 'Production'
-          package: .
+          package: ./publish
           
